@@ -32,7 +32,7 @@ public class Constants {
 
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(90/25.4) // now it is in inches
+            .forwardPodY(90/25.4) // now it is in inches not millimeters
             .strafePodX(0)
             .distanceUnit(DistanceUnit.MM)
             .hardwareMapName("pinpoint")
