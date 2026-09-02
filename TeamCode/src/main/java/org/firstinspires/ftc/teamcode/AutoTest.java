@@ -28,15 +28,12 @@ public class AutoTest extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        int i;
-        /*
-        for (int i=0, i=5,i++) {
+        while (opModeIsActive()) {
             frontLeftMotor.setPower(0.5);
             frontRightMotor.setPower(0.5);
             backLeftMotor.setPower(0.5);
             backRightMotor.setPower(0.5);
         }
-        */
         if( gamepad1.crossWasPressed()){
 
             frontLeftMotor.setPower(0);
