@@ -11,10 +11,15 @@ import com.pedropathing.paths.PathChain;
 
 /**
  * FC's auto test pedro pathing program that moves robot does
+ *
  * 1) Move from startPos to pose1
  * 2) Pause at pose1 for 5 seconds
  * 3) Move from pose2 to pose3
  * 4) Done.
+ *
+ * This example uses OpMode and let FTC program to call loop()
+ * repeatedly.  FTC program calls loop() around 50-100 times per
+ * second.
  */
 @Autonomous(name = "Fc auto 2 paths with wait test", group = "Autonomous")
 public class FcAutoTest extends OpMode {
