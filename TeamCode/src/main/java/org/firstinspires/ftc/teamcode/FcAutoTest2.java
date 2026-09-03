@@ -11,9 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * FcAutoTest2, same as FcAutoTest, but this one uses LinearOpMode
- * and we set up and control the loop instead of letting FTC program
- * to call loop() for each iteration.
+ * FcAutoTest2, same as FcAutoTest, but this one uses LinearOpMode,
+ * and we set up and control the loop and do the iteration ourselves.
  */
 @Autonomous(name = "PedroPathing 2-Path Auto", group = "Autonomous")
 public class FcAutoTest2 extends LinearOpMode {

@@ -5,6 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+/**
+ * This is the TeleOp test code gathered from the internet that
+ * controls a Mecanum robot using gamepad/game controller.
+ * <p>
+ * 1) Left stick (Y or vertical) - forward/backward
+ * 2) Left stick (X or horizontal) - left/right
+ * 3) Right stick (X or horizontal) - rotate
+ */
 @TeleOp(name = "Mecanum TeleOp (OpMode)", group = "TeleOp")
 public class FcTeleTest extends OpMode {
 
