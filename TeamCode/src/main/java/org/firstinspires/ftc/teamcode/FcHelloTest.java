@@ -10,7 +10,7 @@ public class FcHelloTest extends OpMode {
 
     @Override
     public void init() {
-        telemetry.addData("Fc Hello", "I am here again");
+        telemetry.addData("Fc Hello", "Robo Mavericks");
     }
 
     @Override

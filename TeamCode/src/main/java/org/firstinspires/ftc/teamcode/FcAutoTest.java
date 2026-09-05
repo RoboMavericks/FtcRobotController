@@ -17,7 +17,7 @@ import com.pedropathing.paths.PathChain;
  * 3) Move from pose2 to pose3
  * 4) Done.
  */
-@Autonomous(name = "Fc auto 2 paths with wait test", group = "Autonomous")
+@Autonomous(name = "FcAutoTest (OpMode)", group = "Autonomous")
 public class FcAutoTest extends OpMode {
 
     private Follower follower;

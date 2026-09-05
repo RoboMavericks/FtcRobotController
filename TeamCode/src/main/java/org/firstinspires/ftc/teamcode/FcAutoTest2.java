@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * FcAutoTest2, same as FcAutoTest, but this one uses LinearOpMode,
  * and we set up and control the loop and do the iteration ourselves.
  */
-@Autonomous(name = "PedroPathing 2-Path Auto", group = "Autonomous")
+@Autonomous(name = "FcAutoTest2 (LinearOpMode)", group = "Autonomous")
 public class FcAutoTest2 extends LinearOpMode {
     private Follower follower;
     private ElapsedTime waitTimer;

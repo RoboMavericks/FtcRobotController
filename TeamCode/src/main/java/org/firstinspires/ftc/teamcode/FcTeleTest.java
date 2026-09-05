@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  * 2) Left stick (X or horizontal) - left/right
  * 3) Right stick (X or horizontal) - rotate
  */
-@TeleOp(name = "Mecanum TeleOp (OpMode)", group = "TeleOp")
+@TeleOp(name = "FcTeleTest (OpMode)", group = "TeleOp")
 public class FcTeleTest extends OpMode {
 
     // Declare drive motors
@@ -25,10 +25,10 @@ public class FcTeleTest extends OpMode {
     @Override
     public void init() {
         // Initialize the hardware variables using hardwareMap strings matching the Robot Controller config
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "leftFront");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
-        leftBackDrive   = hardwareMap.get(DcMotor.class, "leftBack");
-        rightBackDrive  = hardwareMap.get(DcMotor.class, "rightBack");
+        leftFrontDrive  = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        leftBackDrive   = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        rightBackDrive  = hardwareMap.get(DcMotor.class, "backRightMotor");
 
         // Reverse left side motors so positive power drives the robot forward
         leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
