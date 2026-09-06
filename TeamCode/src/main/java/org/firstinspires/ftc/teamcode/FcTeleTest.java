@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This is the TeleOp test code gathered from the internet that
@@ -21,6 +22,8 @@ public class FcTeleTest extends OpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightBackDrive = null;
+
+    private final ElapsedTime stopWatch = new ElapsedTime();
 
     @Override
     public void init() {
@@ -43,6 +46,11 @@ public class FcTeleTest extends OpMode {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("Status", "Initialized");
+    }
+
+    @Override
+    public void start() {
+        stopWatch.reset();
     }
 
     @Override
@@ -80,7 +88,7 @@ public class FcTeleTest extends OpMode {
         rightBackDrive.setPower(rightBackPower);
 
         // Telemetry readout for debugging
-        telemetry.addData("Status", "Running");
+        telemetry.addData("Status", "Running for %.2f sec", stopWatch.seconds());
         telemetry.addData("Front Motors", "Left: %.2f | Right: %.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back Motors",  "Left: %.2f | Right: %.2f", leftBackPower, rightBackPower);
     }
