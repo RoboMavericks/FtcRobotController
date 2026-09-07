@@ -1,60 +1,79 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
 
 @Autonomous
 public class AutoTest extends OpMode {
-    private DcMotor frontLeftMotor = null;
-    private DcMotor backLeftMotor = null;
-    private DcMotor frontRightMotor = null;
-    private DcMotor backRightMotor = null;
-    
+
+    private Follower follower;
+    private ElapsedTime timer;
+
+    public enum State{
+        PATH_1,
+        DONE
+    }
+    private State currentState = State.PATH_1;
+
+    private final Pose startPose = new Pose(72,72, Math.toRadians(0));
+    private final Pose endPose = new Pose(30,30, Math.PI);
+
+    private PathChain pathChain1;
+
+
+
     @Override
     public void init(){
-        
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
 
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        follower = Constants.createFollower(hardwareMap);
+        follower.setStartingPose(startPose);
+        timer = new ElapsedTime();
+
+
+        pathChain1 = follower.pathBuilder()
+                .addPath(new BezierLine(startPose, endPose))
+                .setLinearHeadingInterpolation(startPose.getHeading(), endPose.getHeading())
+                .build();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        /*
-        waitForStart();
-        while (opModeIsActive()) {
-            frontLeftMotor.setPower(0.5);
-            frontRightMotor.setPower(0.5);
-            backLeftMotor.setPower(0.5);
-            backRightMotor.setPower(0.5);
-        }
-        if( gamepad1.crossWasPressed()){
-
-            frontLeftMotor.setPower(0);
-            frontRightMotor.setPower(0);
-            backLeftMotor.setPower(0);
-            backRightMotor.setPower(0);
-        }
-
-         */
     }
 
     @Override
     public void start(){
-
+        follower.followPath(pathChain1);
+        currentState = State.PATH_1;
     }
 
     @Override
     public void loop(){
 
+        follower.update();
+
+        switch (currentState) {
+            case PATH_1:
+                if (!follower.isBusy()) {
+                    timer.reset();
+                    currentState = State.DONE;
+                }
+                break;
+            case DONE:
+                telemetry.addData("Status", "Auto Finished!");
+                break;
+
+        }
+        telemetry.addData("State", currentState);
+        telemetry.addData("X", follower.getPose().getX());
+        telemetry.addData("Y", follower.getPose().getY());
+        telemetry.addData("Heading (deg)", Math.toDegrees(follower.getPose().getHeading()));
     }
 }
