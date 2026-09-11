@@ -72,6 +72,7 @@ public class FcAutoTest2 extends LinearOpMode {
             // Update localization and drive motor outputs
             // Important: MUST CALL follower.update in every iteration.
             follower.update();
+            drawing.drawDebug(follower);
 
             switch (currentState) {
                 case FOLLOW_PATH_1:

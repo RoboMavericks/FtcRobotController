@@ -73,6 +73,7 @@ public class FcAutoTest extends OpMode {
     public void loop() {
         // Must be called continuously every loop cycle
         follower.update();
+        drawing.drawDebug(follower);
 
         // When follower is still busy means the robot is still moving.
         switch (currentState) {
