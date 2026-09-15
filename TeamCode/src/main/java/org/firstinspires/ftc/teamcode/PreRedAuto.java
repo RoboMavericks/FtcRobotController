@@ -25,9 +25,10 @@ public class PreRedAuto extends OpMode{
 
     private final Pose p1 = new Pose(60,8, Math.toRadians(90));
     private final Pose p2 = new Pose(60,12, Math.toRadians(90));
-    private final Pose p3 = new Pose(9,12, Math.toRadians(270));
-    private final Pose c2 = new Pose(36,24);
-    private final Pose p4 = new Pose(108,36, Math.toRadians(0));
+    private final Pose p3 = new Pose(36,36, Math.toRadians(180));
+    private final Pose p4 = new Pose(9,18, Math.toRadians(270));
+    private final Pose c2 = new Pose(60,48);
+    private final Pose p5 = new Pose(9,8, Math.toRadians(270));
     private final Pose centerPose = new Pose(72,72, Math.toRadians(180));
 
     private final Pose c1 = new Pose(144,0);
@@ -36,9 +37,9 @@ public class PreRedAuto extends OpMode{
     private PathChain pathChain2;
 
     private Command total;
-    private Command forward1;
+    private Command move1;
     private Command shoot1;
-    private Command forward2;
+    private Command move2;
 
     @Override
     public void init() {
@@ -51,11 +52,16 @@ public class PreRedAuto extends OpMode{
                 .setLinearHeadingInterpolation(p1.getHeading(), p2.getHeading())
                 .build();
         pathChain2 = follower.pathBuilder()
-                .addPath(new BezierCurve(p2,c2,p3))
+                //.addPath(new BezierCurve(p2,c2,p3))
+                //.setLinearHeadingInterpolation(p2.getHeading(), p3.getHeading())
+                .addPath(new BezierLine(p2,p3))
                 .setLinearHeadingInterpolation(p2.getHeading(), p3.getHeading())
+                .addPath(new BezierLine(p3,p4))
+                .setLinearHeadingInterpolation(p3.getHeading(), p4.getHeading())
                 .build();
 
-        forward1 = Command.build()
+
+        move1 = Command.build()
                 .setStart(() -> {
                     pathTimer.reset();
                     follower.followPath(pathChain1);
@@ -75,7 +81,7 @@ public class PreRedAuto extends OpMode{
                     //shooting code
                 })
                 .setDone(() ->(pathTimer.seconds() > 5.0));
-        forward2 = Command.build()
+        move2 = Command.build()
                 .setStart(() -> {
                     pathTimer.reset();
                     follower.followPath(pathChain2);
@@ -87,9 +93,9 @@ public class PreRedAuto extends OpMode{
                 .setDone(() -> (pathTimer.seconds() > 0.1 && !follower.isBusy()) || pathTimer.seconds() >= 20);
 
         total = sequential(
-                forward1,
+                move1,
                 shoot1,
-                forward2
+                move2
         );
         telemetry.addData("Status", "Initialized");
         telemetry.update();
