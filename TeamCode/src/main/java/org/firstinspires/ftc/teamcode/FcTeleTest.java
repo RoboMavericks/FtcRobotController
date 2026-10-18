@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * 2) Left stick (X or horizontal) - left/right
  * 3) Right stick (X or horizontal) - rotate
  */
-@TeleOp(name = "FcTeleTest (OpMode)", group = "TeleOp")
+@TeleOp(name = "OPMODE (OpMode)", group = "TeleOp")
 public class FcTeleTest extends OpMode {
 
     // Declare drive motors
@@ -22,24 +23,35 @@ public class FcTeleTest extends OpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightBackDrive = null;
+    private DcMotor intakeMotor = null;
+    private CRServo inside = null;
+    private DcMotor shootMotor = null;
+    private CRServo rightIn = null;
+    private CRServo leftIn = null;
 
     private final ElapsedTime stopWatch = new ElapsedTime();
 
     @Override
     public void init() {
         // Initialize the hardware variables using hardwareMap strings matching the Robot Controller config
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        leftBackDrive   = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        rightBackDrive  = hardwareMap.get(DcMotor.class, "backRightMotor");
+        leftFrontDrive  = hardwareMap.get(DcMotor.class, "leftFrontDrive");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
+        leftBackDrive   = hardwareMap.get(DcMotor.class, "leftDrive");
+        rightBackDrive  = hardwareMap.get(DcMotor.class, "rightDrive");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        inside = hardwareMap.get(CRServo.class, "inside");
+        shootMotor = hardwareMap.get(DcMotor.class, "shootMotor");
+        rightIn = hardwareMap.get(CRServo.class, "rightIn");
+        leftIn = hardwareMap.get(CRServo.class, "leftIn");
 
         // Reverse left side motors so positive power drives the robot forward
         leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Ensure motors stop instantly when power is 0
+
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -87,6 +99,32 @@ public class FcTeleTest extends OpMode {
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
 
+        // Not movement
+        if (gamepad1.crossWasReleased()) {
+            intakeMotor.setPower(1);
+            rightIn.setPower(-1);
+            leftIn.setPower(1);
+        }
+        if (gamepad1.cross) {
+            intakeMotor.setPower(0);
+            rightIn.setPower(0);
+            leftIn.setPower(0);
+        }
+        if (gamepad1.circle) {
+            inside.setPower(-0.75);
+        }
+        if (!gamepad1.circle) {
+            inside.setPower(0);
+        }
+        if (gamepad1.right_bumper) {
+            shootMotor.setPower(0.55);
+        }
+        if (!gamepad1.right_bumper) {
+            shootMotor.setPower(0.5);
+        }
+        if (gamepad1.left_bumper) {
+            shootMotor.setPower(0);
+        }
         // Telemetry readout for debugging
         telemetry.addData("Status", "Running for %.2f sec", stopWatch.seconds());
         telemetry.addData("Front Motors", "Left: %.2f | Right: %.2f", leftFrontPower, rightFrontPower);

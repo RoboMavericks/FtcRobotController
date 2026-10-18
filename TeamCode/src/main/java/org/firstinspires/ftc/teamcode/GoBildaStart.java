@@ -32,6 +32,12 @@ public class GoBildaStart extends OpMode {
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
 
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
@@ -39,28 +45,43 @@ public class GoBildaStart extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.left_stick_y > 0) {
-            rightDrive.setPower(1);
+            rightDrive.setPower(-1);
             leftDrive.setPower(-1);
+            leftFrontDrive.setPower(1);
+            rightFrontDrive.setPower(1);
         }
+
         if (gamepad1.left_stick_y < 0) {
             rightDrive.setPower(-1);
-            leftDrive.setPower(1);
+            leftDrive.setPower(-1);
+            leftFrontDrive.setPower(-1);
+            rightFrontDrive.setPower(-1);
         }
+
+
         if (gamepad1.left_stick_y == 0) {
             rightDrive.setPower(0);
             leftDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightFrontDrive.setPower(0);
         }
         if (gamepad1.right_stick_x == 0) {
             rightDrive.setPower(0);
             leftDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightFrontDrive.setPower(0);
         }
         if (gamepad1.right_stick_x < 0) {
             rightDrive.setPower(-1);
-            leftDrive.setPower(-1);
+            leftDrive.setPower(1);
+            leftFrontDrive.setPower(1);
+            rightFrontDrive.setPower(-1);
         }
         if (gamepad1.right_stick_x > 0) {
             rightDrive.setPower(1);
-            leftDrive.setPower(1);
+            leftDrive.setPower(-1);
+            leftFrontDrive.setPower(1);
+            rightFrontDrive.setPower(-1);
         }
         if (gamepad1.crossWasReleased()) {
             intakeMotor.setPower(1);
@@ -82,7 +103,7 @@ public class GoBildaStart extends OpMode {
             shootMotor.setPower(0);
         }
         if (!gamepad1.right_bumper) {
-            shootMotor.setPower(0.55);
+            shootMotor.setPower(0.5);
         }
 
     }
